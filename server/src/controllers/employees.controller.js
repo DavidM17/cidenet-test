@@ -14,9 +14,9 @@ EmployeesCtrl.getEmployees = async (req, res) => {
     if (req.query.type === '4') query.otros_nombres = { $regex: req.query.value };
     if (req.query.type === '5') query.numero_identificacion = { $regex: req.query.value };
     if (req.query.type === '6') query.correo = { $regex: req.query.value };
-    if ((req.query.typeid !== 'ALL') && (req.query.typeid !== undefined)) query.tipo_identificacion = req.query.typeid;
-    if ((req.query.country !== 'ALL') && (req.query.country !== undefined)) query.pais_empleo = req.query.country;
-    if ((req.query.state !== 'ALL') && (req.query.state !== undefined)) query.estado = req.query.state;
+    if ((req.query.typeid !== 'Todos') && (req.query.typeid !== undefined)) query.tipo_identificacion = req.query.typeid;
+    if ((req.query.country !== 'Todos') && (req.query.country !== undefined)) query.pais_empleo = req.query.country;
+    if ((req.query.state !== 'Todos') && (req.query.state !== undefined)) query.estado = req.query.state;
 
 
     try {

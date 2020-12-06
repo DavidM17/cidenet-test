@@ -12,6 +12,8 @@ import DropMenuValues from './DropMenuValues';
 
 function Register() {
 
+    let URI = 'http://localhost:3000/api';
+
     const [showerror, setShowerror] = useState(false)
     const [country, setCountry] = useState('Colombia');
     const [idType, setIdType] = useState('Cédula')
@@ -20,6 +22,7 @@ function Register() {
     const [fechaIngreso, setFechaIngreso] = useState()
     const [fecha, setFecha] = useState('')
     const [fechaReducida, setFechaReducida] = useState('')
+    const [email, setEmail] = useState('@cidenet.com.co')
 
     useEffect(() => {
         var date = new Date()
@@ -39,14 +42,14 @@ function Register() {
         setLastday(oneMonthsAgo)
     }, [])
 
-    
+
 
     const {
         handleSubmit,
         handleChange,
         handleBlur,
         touched,
-        values, // use this if you want controlled components
+        values,
         errors,
     } = useFormik({
         initialValues: {
@@ -54,7 +57,7 @@ function Register() {
             segundo_apellido: "",
             primer_nombre: "",
             otros_nombres: "",
-            numero_identificacio: ""
+            numero_identificacion: ""
         },
         validate
     });
@@ -62,7 +65,7 @@ function Register() {
     const handleClick = (e) => {
         e.preventDefault()
         setShowerror(true)
-        
+
         const isEmpty = !Object.values(values).some(x => (x !== null && x !== ""))
 
         const isErrorEmpty = Object.keys(errors).length === 0 && errors.constructor === Object
@@ -72,10 +75,16 @@ function Register() {
             values.tipo_identificacion = idType;
             values.area = area;
             values.fecha_ingreso = fechaIngreso;
-            values.fecha_registro = fecha; 
-            values.estado = "activo"
+            values.fecha_registro = fecha;
+            values.estado = "activo";
+            values.primer_apellido = values.primer_apellido.toLowerCase();
+            values.segundo_apellido = values.segundo_apellido.toLowerCase();
+            values.primer_nombre = values.primer_nombre.toLowerCase();
+            values.otros_nombres = values.otros_nombres.toLowerCase();
+            values.numero_identificacion = values.numero_identificacion.toLowerCase();
+            values.correo = email
 
-            axios.post('http://localhost:3000/api/employee',values).then(
+            axios.post(`${URI}/employee`, values).then(
                 res => console.log(res)
             ).catch(
                 err => console.log(err)
@@ -83,13 +92,13 @@ function Register() {
             setShowerror(false)
 
         }
-        console.log(errors)
         
+
     }
 
     const handleDayClick = (date) => {
         let day = date.getDate().toString()
-        let month = (date.getMonth() +1 ).toString()
+        let month = (date.getMonth() + 1).toString()
         let year = date.getFullYear().toString()
         setFechaIngreso(`${year}-${month}-${day}`);
     }
@@ -100,8 +109,31 @@ function Register() {
             before: lastday,
             after: new Date()
         }
-        
     }
+
+    useEffect(() => {
+
+        if (!errors.primer_nombre && !errors.primer_apellido) {
+
+            let query = {
+                primer_apellido: values.primer_apellido.toLowerCase(),
+                primer_nombre: values.primer_nombre.toLowerCase(),
+                pais_empleo: country
+            }
+
+            axios.get(`http://localhost:3000/api/emailmatch`, { params: query }).then(
+                res => {
+                    let dir = country === 'Colombia' ? 'co' : 'us'
+                    let newemail = `${values.primer_nombre.toLowerCase()}.${values.primer_apellido.toLowerCase()}.${res.data.emailsmatch + 1}@cidenet.com.${dir}`
+                    setEmail(newemail)
+                }
+            ).catch(
+                err => console.log(err)
+            )
+        }
+
+
+    }, [values.primer_apellido, values.primer_nombre, country,errors.primer_nombre,errors.primer_apellido])
 
     return (
         <>
@@ -223,20 +255,15 @@ function Register() {
 
 
                         </div>
-                        {touched.numero_identificacio && errors.numero_identificacio
-                            ? <div className="errors">{errors.numero_identificacio}</div>
+                        {touched.numero_identificacion && errors.numero_identificacion
+                            ? <div className="errors">{errors.numero_identificacion}</div>
                             : null}
                     </div>
 
 
                     <div className="input-container">
                         <label htmlFor="correo">Correo:</label>
-                        <input
-                            type="text"
-                            name="correo"
-                            onChange={handleChange}
-                            onBlur={handleBlur}
-                        />
+                        <p>{email}</p>
                     </div>
 
                     <div className="input-container">
@@ -244,7 +271,7 @@ function Register() {
 
                         <DayPickerInput
                             placeholder={fechaReducida}
-                            
+
                             onDayChange={handleDayClick}
                             dayPickerProps={dateoverlay}
                         />

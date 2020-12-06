@@ -1,7 +1,8 @@
 
 const validate = (values) => {
     const errors = {};
-    var alfaRGEX = /^[a-zA-Z ]*$/;
+    var alfaRGEX = /^[a-zA-Z]*$/;
+    var alfaOtrosRGEX = /^[a-zA-Z ]*$/;
     var numRGEX = /^[a-zA-Z0-9]*$/;
 
     if (alfaRGEX.test(values.primer_apellido) === false || !values.primer_apellido) {
@@ -16,7 +17,7 @@ const validate = (values) => {
         errors.primer_nombre = "No se permite números,caracteres especiales,acentos ni Ñ";
     }
 
-    if (alfaRGEX.test(values.otros_nombres) === false ) {
+    if (alfaOtrosRGEX.test(values.otros_nombres) === false ) {
         errors.otros_nombres = "No se permite números,caracteres especiales,acentos ni Ñ";
     }
     

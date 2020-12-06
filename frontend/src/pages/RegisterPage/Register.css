@@ -19,7 +19,7 @@
     margin: 10px;
     flex-wrap: wrap;
     display: flex;
-    justify-content: start;
+    justify-content: flex-start;
 }
 
 .field-container{
