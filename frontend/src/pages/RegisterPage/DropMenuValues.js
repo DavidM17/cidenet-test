@@ -72,6 +72,19 @@ DropOptions.AreaOptions = [
     }
 ]
 
+DropOptions.StateOptions = [
+    {
+        key: 'activo',
+        text: 'activo',
+        value: 'activo'
+    },
+    {
+        key: 'inactivo',
+        text: 'inactivo',
+        value: 'inactivo'
+    },
+]
+
 
 
 export default DropOptions;

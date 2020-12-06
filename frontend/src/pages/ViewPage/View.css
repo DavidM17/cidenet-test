@@ -9,6 +9,15 @@
     justify-content: flex-start;
 }
 
+.input-container{
+  display: flex;
+  align-items: center;
+}
+
+.icon-box:hover{
+  cursor: pointer;
+}
+
 .pag-container{
     width: 100%;
     justify-content: center;

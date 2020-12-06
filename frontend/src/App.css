@@ -5,3 +5,29 @@ body{
   font-family: 'PT-Sans', sans-serif;
 }
 
+*:focus{
+  outline: 0;
+}
+
+input{
+  height: 30px;
+  padding: 5px;
+  border-radius: 10px;
+  border-color: rgb(160, 160, 160);
+}
+
+input:focus{
+  border-color: rgb(172, 217, 231);
+}
+
+button{
+  height: 30px;
+  background-color: rgb(44, 151, 238);
+  color: white;
+  border: none;
+  border-radius: 5px;
+}
+
+button:hover{
+  background-color: turquoise;
+}

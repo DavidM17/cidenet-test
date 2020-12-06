@@ -5,6 +5,7 @@ import axios from 'axios';
 import { Dropdown, Icon, Table } from 'semantic-ui-react'
 import DropMenuValues from './DropMenuValues';
 import ReactPaginate from 'react-paginate';
+import { Link } from 'react-router-dom';
 
 
 function View() {
@@ -29,7 +30,7 @@ function View() {
 
             axios.delete(`http://localhost:3000/api/employee/${e}`).then(
                 res => {
-                    console.log(res)
+                    console.log(res.data.message)
                     handleSearch()
                 }
             ).catch(
@@ -58,7 +59,7 @@ function View() {
 
         axios.get('http://localhost:3000/api/employees', { params: data }).then(
             res => {
-                console.log(res.data)
+
                 setEmployees(res.data.dataEmployees)
                 setTotalPages(res.data.totalPages);
             }
@@ -82,7 +83,7 @@ function View() {
 
 
                     <div className="input-container">
-                        <label htmlFor="area">Tipo de Busqueda:</label>
+                        <label htmlFor="area">Tipo de Búsqueda:</label>
                         <Dropdown
                             onChange={handleQueryOption}
                             fluid
@@ -130,7 +131,10 @@ function View() {
                             options={DropMenuValues.StateOptions}
                         />
                     </div>
-                    <button onClick={handleSearch}>Buscar</button>
+                    <div className="input-container">
+                        <button onClick={handleSearch}>Buscar</button>
+                    </div>
+
                     <Table celled>
                         <Table.Header>
                             <Table.Row>
@@ -154,8 +158,11 @@ function View() {
                                             <Table.Cell>{employee.correo}</Table.Cell>
                                             <Table.Cell>{employee.estado}</Table.Cell>
                                             <Table.Cell>
-                                                <Icon color='blue' name='edit' size='large' />
-                                                <Icon color='red' name='delete' size='large' onClick={() => handleDelete(employee._id)} />
+                                                <Link to={`/edit/${employee._id}`}>
+                                                    <Icon color='blue' name='edit' size='large' />
+                                                </Link>
+
+                                                <Icon className="icon-box" color='red' name='delete' size='large' onClick={() => handleDelete(employee._id)} />
                                             </Table.Cell>
                                         </Table.Row>
                                     ))) : (
@@ -170,8 +177,8 @@ function View() {
                 </div>
                 <div className="pag-container">
                     <ReactPaginate
-                        previousLabel={"prev"}
-                        nextLabel={"next"}
+                        previousLabel={"anterior"}
+                        nextLabel={"siguiente"}
                         breakLabel={"..."}
                         breakClassName={"break-me"}
                         pageCount={totalPages}

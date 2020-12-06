@@ -91,9 +91,9 @@ DropOptions.StateOptions = [
         value: 'activo'
     },
     {
-        key: 'desvinculado',
-        text: 'desvinculado',
-        value: 'desvinculado'
+        key: 'inactivo',
+        text: 'inactivo',
+        value: 'inactivo'
     }
 ]
 
