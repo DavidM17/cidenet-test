@@ -7,7 +7,7 @@ const employeeSchema = new Schema({
     otros_nombres: {type: String, require: true},
     pais_empleo: {type: String, require: true},
     tipo_identificacion: {type: String, require: true},
-    numero_identificacion: {type: Number, require: true, unique: true},
+    numero_identificacion: {type: String, require: true, unique: true},
     correo: {type: String, require: true},
     fecha_ingreso: {type: String, require: true},
     area: {type: String, require: true},

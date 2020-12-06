@@ -9,6 +9,7 @@ router.post('/employee',employeesCtrl.createEmployee);
 router.get('/employee/:id',employeesCtrl.getEmployee);
 router.put('/employee/:id',employeesCtrl.editEmployee);
 router.delete('/employee/:id',employeesCtrl.removeEmployee);
+router.get('/emailmatch', employeesCtrl.getEmail)
 
 
 module.exports = router;
